@@ -4,5 +4,22 @@
   border-color: black;
   width: 320px;
   padding: 10px 10px 10px 10px;
+}
 
+.newstitle {
+  background-color: #11F2E0;
+  padding: 5px 5px 5px 5px;
+  margin-bottom: 10px;
+}
+
+.newssite {
+  background-color: #928E8E;
+  padding: 7.5px 5px 7.5px 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  float: left;
+}
+
+.clear {
+  clear: left;
 }
