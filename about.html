@@ -5,9 +5,45 @@
     <title>About Me</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="site.css">
+
+    <script>
+      window.onload = function() {
+        // functions that run after page loads
+        displayGreeting();
+        fetchWeather();
+      }
+      // display good morning, afternoon or evening based on the time
+      function displayGreeting() {
+        var date = new Date();
+        var hour = date.getHours();
+        var description = "";
+        if (hour < 12) {
+          description = "morning";
+        } else if (hour < 17) {
+          description = "afternoon";
+        } else {
+          description = "evening";
+        }
+        document.getElementById("greeting").innerHTML = "Good " + description + ".";
+      }
+      // get weather data from openweathermap and display the current temp
+      function fetchWeather() {
+        fetch("https://api.openweathermap.org/data/2.5/weather?zip=85719,US&appid=de418a3d5364a27aab35d6181cd08113&units=imperial")
+        .then(function(resp) { return resp.json() })
+        .then(function(data) {
+          document.getElementById("weather").innerHTML = "It is currently " + data.main.temp + "&#730; in Tucson, AZ.";
+        })
+        .catch(function() {
+          document.getElementById("weather").innerHTML = "Error in fetchWeather function";
+        });
+      }
+    </script>
+
   </head>
 
   <body>
+    <div id="greeting"></div>
+    <div id="weather"></div>
    <center>
       <div class="name_container">
         Jackson Peters
