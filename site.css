@@ -71,6 +71,7 @@ img {
   background-color: white;
   width: 344px;
   padding: 20px 20px 20px 20px;
+  margin-bottom: 10px;
 }
 
 #greeting {
@@ -80,4 +81,35 @@ img {
 #weather {
   font-size: 2em;
   margin: 1em;
+}
+
+#rss_items {
+  border: 10px;
+  border-style: groove;
+  border-color: #11F2E0;
+  padding: 4px 4px 4px 4px;
+  margin: 2.5px 2.5px 2.5px 2.5px;
+
+}
+
+.rss_title {
+  font-size: 1.25em;
+}
+
+.rss_description{
+  padding-top: 2px;
+  padding-bottom: 10px;
+}
+
+a:link {
+  color: #585858
+}
+
+a:hover {
+  color:  #11F2E0
+}
+
+.NHL_news_title{
+  font-size: 2.5em;
+  font-style: italic;
 }
