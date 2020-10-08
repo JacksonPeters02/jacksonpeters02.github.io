@@ -19,7 +19,6 @@
         var mymap = drawMap()
         listSheet(mymap);
 
-
       }
       // display good morning, afternoon or evening based on the time
       function displayGreeting() {
@@ -46,6 +45,7 @@
           document.getElementById("weather").innerHTML = "Error in fetchWeather function";
         });
       }
+
       function displayRSSFeed() {
         // fetch an RSS feed and display the title and description
         var origURL = 'https://www.espn.com/espn/rss/nhl/news';
@@ -107,8 +107,6 @@
           document.getElementById("sheet").innerHTML = "Error in listSheet function";
         });
       }
-
-
 
     </script>
   </head>
