@@ -2,13 +2,13 @@
 <rss version="2.0">
 <channel>
   <title>Jackson's Briefs</title>
-  <link>jacksonpeters02.github.io</link>
+  <link>https://jacksonpeters02.github.io</link>
   <description>FEED DESCRIPTION</description>
 
   <item>
     <pubDate>Mon, 26 Oct 2020 14:00:00 -0700</pubDate>
     <title>Brief 1 UA Hockey</title>
-    <link>jacksonpeters02.github.io</link>
+    <link>https://jacksonpeters02.github.io</link>
     <description>UA Hockey return to play amid COVID-19 Pandemic</description>
     <enclosure url="https://jacksonpeters02.github.io/briefs/TeamorBrief.m4a" type="audio/mpeg" length="619051"></enclosure>
     <guid isPermaLink="false">https://jacksonpeters02.github.io/briefs/TeamorBrief.m4a</guid>
@@ -17,7 +17,7 @@
   <item>
     <pubDate>Mon, 26 Oct 2020 14:00:00 -0700</pubDate>
     <title>Brief 2 Lute Olsen</title>
-    <link>jacksonpeters02.github.io</link>
+    <link>https://jacksonpeters02.github.io</link>
     <description>Impact left by coach Lute Olsen</description>
     <enclosure url="https://jacksonpeters02.github.io/briefs/OlsenBrief.m4a" type="audio/mpeg" length="512547"></enclosure>
     <guid isPermaLink="false">https://jacksonpeters02.github.io/briefs/OlsenBrief.m4a</guid>
