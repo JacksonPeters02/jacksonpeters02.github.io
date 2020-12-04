@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>About Me</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css">
+    <script src="https://storage.googleapis.com/feednami-static/js/feednami-client-v1.0.1.js">
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>
+
+    <script>
+      window.onload = function() {
+        // functions that run after page loads
+        displayGreeting();
+        fetchWeather();
+        displayRSSFeed();
+        var mymap = drawMap()
+        listSheet(mymap);
+
+      }
+      // display good morning, afternoon or evening based on the time
+      function displayGreeting() {
+        var date = new Date();
+        var hour = date.getHours();
+        var description = "";
+        if (hour < 12) {
+          description = "morning";
+        } else if (hour < 17) {
+          description = "afternoon";
+        } else {
+          description = "evening";
+        }
+        document.getElementById("greeting").innerHTML = "Good " + description + ".";
+      }
+      // get weather data from openweathermap and display the current temp
+      function fetchWeather() {
+        fetch("https://api.openweathermap.org/data/2.5/weather?zip=85719,US&appid=de418a3d5364a27aab35d6181cd08113&units=imperial")
+        .then(function(resp) { return resp.json() })
+        .then(function(data) {
+          document.getElementById("weather").innerHTML = "It is currently " + data.main.temp + "&#730; in Tucson, AZ.";
+        })
+        .catch(function() {
+          document.getElementById("weather").innerHTML = "Error in fetchWeather function";
+        });
+      }
+
+      function displayRSSFeed() {
+        // fetch an RSS feed and display the title and description
+        var origURL = 'https://www.espn.com/espn/rss/nhl/news';
+        // feednami doesn't like & so replace with %26
+        var replacedURL = origURL.replace(/&/g, "%26");
+        feednami.load(replacedURL,function(result) {
+          if (result.error) {
+            console.log(result.error);
+          } else {
+            var entries = result.feed.entries
+            for (var i = 0; i < entries.length; i++) {
+              var entry = entries[i];
+              let divElement = '<div class="rss_title"><a href="' + entry.link + '" target="_blank">' + entry.title + '</a></div><div class="rss_description">' + entry.description + '</div>';
+              document.getElementById("rss_items").innerHTML += divElement;
+            }
+          }
+        });
+      }
+
+      function drawMap() {
+      // draw a map using leafletjs and tiles from mapbox
+      var mymap = L.map('mapid').setView([32.253697, -110.963746], 11.5);
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: 'pk.eyJ1IjoiamFja3NvbnBldGVycyIsImEiOiJja2cwNW1leTUwcXgyMnlyMHZvYzZnM2ZhIn0.Z27L1jy8zPMUDG1qHs0frw'
+      }).addTo(mymap);
+      return mymap;
+      }
+
+      function addPin(mymap, lat, lon, name) {
+        L.marker([lat, lon]).addTo(mymap).bindPopup(name);
+      }
+
+      function listSheet(mymap) {
+        // list google sheet rows
+        fetch('https://api.sheetson.com/v2/sheets/Sheet1?no-cache=true', {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer 48sv4Jqa1hHWuUhyNyIsEyHP1J968Q874W6miIvY76h4P7M5kuD26o3Wkr8K4g',
+            'X-Sheetson-Spreadsheet-Id': '1bqvW2FA4pn44dlU6r-YmCnuG61CvFRT3v84U4StrBcQ'
+          }
+        })
+        .then(function(resp) { return resp.json() })
+        .then(function(data) {
+          for (var i = 0; i < data.results.length; i++) {
+            var result = data.results[i];
+            let divElement = '<div class="cell">' + '<div class="cell_name">' + result.name + '</div>' + '<div class="cell_address">' + result.address + '</div>' + '<div class="cell_url"><a href="' + result.url + '">' + result.url + '</a></div>' + '<div class="cell_phone">' + result.phone + '</div>' + '</div>' ;
+            document.getElementById("sheet").innerHTML += divElement;
+
+            addPin(mymap, result.lat, result.lon, '<strong>' + result.name + '</strong><br>' + result.address);
+          }
+        })
+        .catch(function() {
+          document.getElementById("sheet").innerHTML = "Error in listSheet function";
+        });
+      }
+
+    </script>
+  </head>
+
+  <body>
+    <div id="greeting"></div>
+    <div id="weather"></div>
+
+   <center>
+      <div class="name_container">
+        Jackson Peters
+      </div>
+
+    <div class="content_container">
+
+        <div class="image_container">
+          <img alt="Jackson Profile" src="media/jacksonaboutme.jpg" width="350" height="350">
+        </div>
+
+        <div class="bio_container">
+          <h3>My Bio</h3>
+          My name is Jackson Peters and I am a senior at the University of Arizona.  After I graduate, I hope to attend
+          law school at Arizona State University where I can gain the skills necessary to achieve my dream of working in the National Hockey League in a manegerial position.
+          I spend a lot of time at work and on my studies, but in my free time I enjoying watching movies, playing sports, and playing video games.
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <div class="news_container">
+      <div class="newstitle">News Sites</div>
+      <div class="newssite"><a href="https://www.cnn.com" target="_blank">CNN</a></div>
+      <div class="newssite"><a href="https://www.foxnews.com" target="_blank">Fox News</a></div>
+      <div class="newssite"><a href="https://www.washingtonpost.com/?reload=true" target="_blank">Washington Post</a></div>
+      <div class="newssite"><a href="https://www.huffpost.com/?guccounter=1" target="_blank">Huffington Post</a></div>
+      <div class="newssite"><a href="https://www.wsj.com" target="_blank">Wall Street Journal</a></div>
+      <div class="newssite"><a href="https://www.nytimes.com" target="_blank">New York Times</a></div>
+      <div class="clear"></div>
+    </div>
+
+    <div class=NHL_news_title><strong>NHL News From ESPN</strong></div>
+   </center>
+
+    <div id="rss_items"></div>
+    <center><h2>COVID-19 Testing Locations</h2></center>
+    <center><div id="mapid"></div></center>
+    <div id="sheet"></div>
+
+  </body>
+</html>
